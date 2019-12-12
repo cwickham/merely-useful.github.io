@@ -55,7 +55,7 @@ The tricky part of this, is that the above equation states an observational patt
     $$
     where $C$ is the appropriate normalizing factor to ensure the density integrates to one, and $\alpha > 0$, is a parameter of the distribution.  This also implies $x$ has a power law on its complementary cumulative distribution function, a.k.a survival function:
     $$
-    S(x) = P(X \ge x) = \frac{x}{x_\text{min}}^{-\alpha + 1}
+    S(x) = P(X \ge x) =  \left(\frac{x}{x_\text{min}}\right)^{-\alpha + 1}
     $$
 
 2. Treat $x$ as a discrete random variable, and put a power law on its PDF:
@@ -271,5 +271,50 @@ f(x) = x^{1 - \alpha} - (x + 1)^{1 - \alpha}
 $$
 This isn't linear on log-log scales, but given the range of the data, e.g. words in Moby Dick, it doesn't have a huge amount of curvature.
 
+## How can I simulate data that follows a power law?
+
+From @moreno2016large, use the inverse transform method:
+
+1. generate $u$ from uniform distribution on $(0, 1/x_\text{min}^{\alpha - 1})$
+2. calculate $y = 1/u^{1/(\alpha - 1)}$
+3. take $x = \lfloor y\rfloor$ 
+
+When $x_\text{min} = 1$, and with some simplification:
+
+1. generate $u$ from uniform distribution on $(0, 1)$
+2. calculate $y = u^{1/(1 - \alpha)}$
+3. take $x = \lfloor y\rfloor$ 
+
+```{r}
+nsim <- 100000
+alpha <- 1.9
+
+inverse_ccdf <- function(x, alpha){
+  x^(1/(1 - alpha))
+}
+
+sim_counts <- floor(inverse_ccdf(runif(nsim), alpha = alpha))
+
+tibble(count = sim_counts) %>% 
+  group_by(count) %>% 
+  count() %>% 
+  ggplot(aes(x = count, y = n)) + 
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10()
+
+tibble(count = sim_counts) %>% 
+  ggplot(aes(count, rank(desc(count), ties = "max"))) + 
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10()
+```
+
+
+```{r}
+mle_sim <- optim(1.5, nlog_likelihood, x = sim_counts, 
+  lower = 1, upper = 4, 
+  hessian = TRUE, method = "Brent")
+```
 
 ## References
