@@ -61,36 +61,40 @@ A few ways I came across:
 
 1.  Treat \(x\) as a continuous random variable, and put a power law on
     its probability density function (PDF): \[
-     f(x) = C x^{-\alpha}, \quad x > x_\text{min}
+     f(x) = C x^{-\beta}, \quad x > x_\text{min}
      \] where \(C\) is the appropriate normalizing factor to ensure the
-    density integrates to one, and \(\alpha > 0\), is a parameter of the
+    density integrates to one, and \(\beta > 0\), is a parameter of the
     distribution. This also implies \(x\) has a power law on its
     complementary cumulative distribution function, a.k.a survival
     function: \[
-     S(x) = P(X \ge x) = \frac{x}{x_\text{min}}^{-\alpha + 1}
+     S(x) = P(X \ge x) =  \left(\frac{x}{x_\text{min}}\right)^{-\beta + 1}
      \]
 
 2.  Treat \(x\) as a discrete random variable, and put a power law on
     its PDF: \[
-     f(x) = P(X = x) = C x^{-\alpha}, \quad x \ge x_\text{min}
+     f(x) = P(X = x) = C x^{-\beta}, \quad x \ge x_\text{min}
      \] In this discrete case, this doesn’t imply a power law on the
     survival function of \(x\), which leads to the next option.
 
 3.  Treat \(x\) as a discrete random variable, and put a power law on
     its survival function: \[
-     S(x) = P(X \ge x) = C x^{-\alpha + 1}
+     S(x) = P(X \ge x) = C x^{-\beta + 1}
      \]
 
 In all cases, the parameter \(x_\text{min}\) is some lower bound on
 \(x\), without which the normalizing constants couldn’t be defined.
+Also, all cases have power law behaviour in the tail with the same
+exponent (i.e. \(x\) goes to infinity \(f(x) \propto 1/x^\beta\)). The
+exponent, \(\beta\) is related to the exponent in the observational
+relationship, \(\alpha\), by \(\beta = 1 + 1/\alpha\).
 
 Treating \(x\) as discrete seems reasonable since it only takes integer
 values, however that then leads to the question of whether choice 2. or
 3. above is more appropriate. Moreno-Sánchez, Font-Clos, and Corral
 (2016) explored this directly, albeit with the restriction that
 \(x_\text{min} = 1\), and found 3., a power law on the survival
-function, fit a larger fraction of text in their corpus (English texts
-in Project Gutenberg) that 2.
+function, fit a larger fraction of texts in their corpus (English texts
+in Project Gutenberg) than 2.
 
 ## What does data that observes Zipf’s law look like?
 
@@ -108,7 +112,7 @@ random variables, there are two distinct possibilities for where the
 power law relationship occurs:
 
 1.  Power law on the probability mass function: \[
-     f(x) = P(X = x) = C x^{-\alpha}, \quad x \ge x_\text{min}
+     f(x) = P(X = x) = C x^{-\beta}, \quad x \ge x_\text{min}
      \] To approximate this with data, we estimate the probability of a
     particular word frequency, \(x\), with the proportion of words in
     our text with that frequency — or in other words, a histogram of the
@@ -138,7 +142,7 @@ power law relationship occurs:
     appear 4 times, 100 words that appear 20 times, etc.
 
 2.  Power law on the survival function: \[
-    S(x) = P(X \ge x) = C x^{-\alpha + 1}
+    S(x) = P(X \ge x) = C x^{-\beta + 1}
     \] Again, to approximate this with data, we replace the probability
     with an observed proportion: in this the proportion of words that
     appear more frequently that a given frequency \(x\).
@@ -195,26 +199,26 @@ for a power law assumed on the survival function.
 
 If we place a power law on the survival function, assuming
 \(x_\text{min} = 1\): \[
-f(x; \alpha) = \frac{1}{x}^{\alpha - 1} - \frac{1}{x + 1}^{\alpha - 1}
+f(x; \beta) = \frac{1}{x}^{\beta - 1} - \frac{1}{x + 1}^{\beta - 1}
 \] Then the log likelihood for \(x_1, \ldots, x_n\) independent and
 identically distributed word frequencies is: \[
-l(\alpha) = \prod_{i = 1}^{n} \log f(x_i; \alpha)
+l(\beta) =  \log \left( \prod_{i = 1}^{n} f(x_i; \beta) \right)
 \]
 
 We can numerically maximize this to get a maximum likelihood estimate
-for \(\alpha\).
+for \(\beta\).
 
 Negative (since R functions like to minimize, not maximize) log
 likelihood for \(x_1, \ldots, x_n\) word frequencies:
 
 ``` r
-# negative log likelihood l(alpha) = -sum(log(f(x)))
-nlog_likelihood <- function(alpha, x){
-  - sum(log((1/x)^(alpha - 1) - (1/(x + 1))^(alpha - 1)))
+# negative log likelihood l(beta) = -sum(log(f(x)))
+nlog_likelihood <- function(beta, x){
+  - sum(log((1/x)^(beta - 1) - (1/(x + 1))^(beta - 1)))
 }
 ```
 
-Estimating \(\alpha\) for Moby Dick:
+Estimating \(\beta\) for Moby Dick:
 
 ``` r
 # Optimizer settings from @moreno2016large
@@ -222,16 +226,16 @@ mle <- optim(1.5, nlog_likelihood, x = moby$count,
   lower = 1, upper = 4, 
   hessian = TRUE, method = "Brent")
 
-alpha_hat <- mle$par
+beta_hat <- mle$par
 # Standard error from ML theory
 se <- sqrt(1/mle$hessian)[1, 1]
 
 # Asymptotic 95% CI
-ci <- alpha_hat + c(-1, 1) * 1.96 * se
+ci <- beta_hat + c(-1, 1) * 1.96 * se
 ```
 
-For Moby Dick, estimate power law exponent is between 1.89 and 1.92 (95%
-asymptotic confidence interval).
+For Moby Dick, estimate power law exponent, \(\beta\), is between 1.89
+and 1.92 (95% asymptotic confidence interval).
 
 ``` r
 n <- nrow(moby)
@@ -240,7 +244,7 @@ moby %>%
   geom_point(size = 0.5, color = "grey50") +
   geom_abline(
     intercept = log10(n),
-    slope = -alpha_hat + 1
+    slope = -beta_hat + 1
   ) + 
   scale_x_log10() +
   scale_y_log10() +
@@ -305,8 +309,8 @@ moby %>%
   ungroup() %>% 
   mutate(
     obs_prop = n/sum(n),
-    expected_zipfs = count^(1 - alpha_hat) - 
-      (count + 1)^(1 - alpha_hat),
+    expected_zipfs = count^(1 - beta_hat) - 
+      (count + 1)^(1 - beta_hat),
     expected_lognormal = dlnorm(count, meanlog = mu_hat,
       sdlog = sigma_hat)
   ) %>% 
@@ -331,9 +335,64 @@ moby %>%
 
 The power law on the survival function gives the following form on the
 probability mass function (with \(x_\text{min} = 1\)): \[
-f(x) = x^{1 - \alpha} - (x + 1)^{1 - \alpha}
+f(x) = x^{1 - \beta} - (x + 1)^{1 - \beta}
 \] This isn’t linear on log-log scales, but given the range of the data,
 e.g. words in Moby Dick, it doesn’t have a huge amount of curvature.
+
+## How can I simulate data that follows a power law?
+
+From Moreno-Sánchez, Font-Clos, and Corral (2016), use the inverse
+transform method:
+
+1.  generate \(u\) from uniform distribution on
+    \((0, 1/x_\text{min}^{\beta - 1})\)
+2.  calculate \(y = 1/u^{1/(\beta - 1)}\)
+3.  take \(x = \lfloor y\rfloor\)
+
+When \(x_\text{min} = 1\), and with some simplification:
+
+1.  generate \(u\) from uniform distribution on \((0, 1)\)
+2.  calculate \(y = u^{1/(1 - \beta)}\)
+3.  take \(x = \lfloor y\rfloor\)
+
+<!-- end list -->
+
+``` r
+nsim <- 100000
+beta <- 1.9
+
+inverse_ccdf <- function(x, beta){
+  x^(1/(1 - beta))
+}
+
+sim_counts <- floor(inverse_ccdf(runif(nsim), beta = beta))
+
+tibble(count = sim_counts) %>% 
+  group_by(count) %>% 
+  count() %>% 
+  ggplot(aes(x = count, y = n)) + 
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10()
+```
+
+![](zipfs-law_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+``` r
+tibble(count = sim_counts) %>% 
+  ggplot(aes(count, rank(desc(count), ties = "max"))) + 
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10()
+```
+
+![](zipfs-law_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
+
+``` r
+mle_sim <- optim(1.5, nlog_likelihood, x = sim_counts, 
+  lower = 1, upper = 4, 
+  hessian = TRUE, method = "Brent")
+```
 
 ## References
 

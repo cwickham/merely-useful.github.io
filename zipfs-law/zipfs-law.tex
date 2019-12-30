@@ -1,0 +1,617 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+% https://github.com/rstudio/rmarkdown/issues/337
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+% https://github.com/rstudio/rmarkdown/pull/252
+\usepackage{titling}
+\setlength{\droptitle}{-2em}
+
+\pretitle{\vspace{\droptitle}\centering\huge}
+\posttitle{\par}
+
+\preauthor{\centering\large\emph}
+\postauthor{\par}
+
+\predate{\centering\large\emph}
+\postdate{\par}
+
+\date{}
+
+\begin{document}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(here)}
+\NormalTok{knitr}\OperatorTok{::}\NormalTok{opts_chunk}\OperatorTok{$}\KeywordTok{set}\NormalTok{(}\DataTypeTok{fig.height =} \DecValTok{3}\NormalTok{, }\DataTypeTok{fig.width =} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{what-is-zipfs-law}{%
+\subsection{What is Zipf's Law?}\label{what-is-zipfs-law}}
+
+\hypertarget{zipfs-law-as-an-observational-pattern}{%
+\subsubsection{Zipf's Law as an observational
+pattern}\label{zipfs-law-as-an-observational-pattern}}
+
+Zipf's law is often stated as an observational pattern seen in the
+relationship between the frequency and rarity of words in a text:
+
+\begin{quote}
+``\ldots{}the most frequent word will occur approximately twice as often
+as the second most frequent word, three times as often as the third most
+frequent word, etc.''\\
+--- \url{https://en.wikipedia.org/wiki/Zipf\%27s_law}
+\end{quote}
+
+Mathematically, it might be written as: \[
+f \propto \frac{1}{r}
+\] where \(f\) is the frequency, e.g.~number of times the word appears
+in a text, and \(r\) is the rarity of the word, e.g.~the rank, where 1
+is the most commonly used word.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{moby <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"zipfs-law"}\NormalTok{, }\StringTok{"results"}\NormalTok{, }\StringTok{"moby_dick.csv"}\NormalTok{),}
+  \DataTypeTok{col_names =} \KeywordTok{c}\NormalTok{(}\StringTok{"word"}\NormalTok{, }\StringTok{"count"}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(}\KeywordTok{str_detect}\NormalTok{(word, }\StringTok{"}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{w"}\NormalTok{)) }\CommentTok{# for some reason I get punctation in here?}
+\end{Highlighting}
+\end{Shaded}
+
+For example, using the text of Moby Dick, plotting the times each word
+is used in the text, versus 1/rank, you see a somewhat linear
+relationship:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{moby }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(count, }\DecValTok{1}\OperatorTok{/}\KeywordTok{rank}\NormalTok{(}\KeywordTok{desc}\NormalTok{(count)))) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{zipfs-law_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+However, this plot tends to visually over-emphasize the very frequent
+words --- it is hard to see what is happening for words that appear less
+than 500 times (better options are shown later).
+
+A slightly more general form adds a parameter \(\alpha\) for the
+exponent of the power law: \[
+f \propto \frac{1}{r^\alpha}
+\]
+
+\hypertarget{zipfs-law-as-a-statistical-model}{%
+\subsubsection{Zipf's Law as a statistical
+model}\label{zipfs-law-as-a-statistical-model}}
+
+The tricky part of this, is that the above equation states an
+observational pattern, but not a statistical model --- it does not
+explicitly describe the distribution of a random variable. Most
+approaches proceed by treating the number of times a word appears,
+\(x\), as the random variable, but there is more than one way to do so.
+A few ways I came across:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Treat \(x\) as a continuous random variable, and put a power law on
+  its probability density function (PDF): \[
+   f(x) = C x^{-\beta}, \quad x > x_\text{min}
+   \] where \(C\) is the appropriate normalizing factor to ensure the
+  density integrates to one, and \(\beta > 0\), is a parameter of the
+  distribution. This also implies \(x\) has a power law on its
+  complementary cumulative distribution function, a.k.a survival
+  function: \[
+   S(x) = P(X \ge x) =  \left(\frac{x}{x_\text{min}}\right)^{-\beta + 1}
+   \]
+\item
+  Treat \(x\) as a discrete random variable, and put a power law on its
+  PDF: \[
+   f(x) = P(X = x) = C x^{-\beta}, \quad x \ge x_\text{min}
+   \] In this discrete case, this doesn't imply a power law on the
+  survival function of \(x\), which leads to the next option.
+\item
+  Treat \(x\) as a discrete random variable, and put a power law on its
+  survival function: \[
+   S(x) = P(X \ge x) = C x^{-\beta + 1}
+   \]
+\end{enumerate}
+
+In all cases, the parameter \(x_\text{min}\) is some lower bound on
+\(x\), without which the normalizing constants couldn't be defined.
+Also, all cases have power law behaviour in the tail with the same
+exponent (i.e. \(x\) goes to infinity \(f(x) \propto 1/x^\beta\)). The
+exponent, \(\beta\) is related to the exponent in the observational
+relationship, \(\alpha\), by \(\beta = 1 + 1/\alpha\).
+
+Treating \(x\) as discrete seems reasonable since it only takes integer
+values, however that then leads to the question of whether choice 2. or
+3. above is more appropriate. Moreno-Sánchez, Font-Clos, and Corral
+(2016) explored this directly, albeit with the restriction that
+\(x_\text{min} = 1\), and found 3., a power law on the survival
+function, fit a larger fraction of texts in their corpus (English texts
+in Project Gutenberg) than 2.
+
+\hypertarget{what-does-data-that-observes-zipfs-law-look-like}{%
+\subsection{What does data that observes Zipf's law look
+like?}\label{what-does-data-that-observes-zipfs-law-look-like}}
+
+The above statistical models for data that obeys Zipf's law are all
+examples of power laws. In general when two variables \(x\), and \(y\)
+are related through a power law: \[
+y = ax^b
+\] Taking logarithms of both sides, yields a linear relationship: \[
+\log(y) = \log(a) + b\log(x)
+\] Hence, plotting the variables on a log-log scale should reveal this
+linear relationship.
+
+However, as seen above, if we think about word frequencies as discrete
+random variables, there are two distinct possibilities for where the
+power law relationship occurs:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Power law on the probability mass function: \[
+   f(x) = P(X = x) = C x^{-\beta}, \quad x \ge x_\text{min}
+   \] To approximate this with data, we estimate the probability of a
+  particular word frequency, \(x\), with the proportion of words in our
+  text with that frequency --- or in other words, a histogram of the
+  observed frequencies.
+
+  For example, a histogram of word frequency of Moby Dick:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{moby }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(count) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(count, n)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{size =} \FloatTok{0.5}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_y_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{labs}\NormalTok{(}
+      \DataTypeTok{title =} \StringTok{"Histogram of word frequencies"}\NormalTok{,}
+      \DataTypeTok{subtitle =} \StringTok{"Moby Dick"}\NormalTok{,}
+      \DataTypeTok{x =} \StringTok{"Word frequency"}\NormalTok{,}
+      \DataTypeTok{y =} \StringTok{"Words"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \includegraphics{zipfs-law_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+  There are about 10,000 words that appear once, 1000 words that appear
+  4 times, 100 words that appear 20 times, etc.
+\item
+  Power law on the survival function: \[
+  S(x) = P(X \ge x) = C x^{-\beta + 1}
+  \] Again, to approximate this with data, we replace the probability
+  with an observed proportion: in this the proportion of words that
+  appear more frequently that a given frequency \(x\).
+
+  This could be done explicitly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{survival <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x, data)\{ }
+  \KeywordTok{mean}\NormalTok{(data }\OperatorTok{>=}\StringTok{ }\NormalTok{x) }
+\NormalTok{\}}
+\NormalTok{moby }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}
+    \DataTypeTok{survival =} \KeywordTok{map_dbl}\NormalTok{(count, survival, }\DataTypeTok{data =}\NormalTok{ count)}
+\NormalTok{  ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(count, survival)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_y_log10}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+  But it turns out this is an exact linear transform of rank, so it is
+  much easier to plot rank vs frequency:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{moby }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(count, }\KeywordTok{rank}\NormalTok{(}\KeywordTok{desc}\NormalTok{(count), }\DataTypeTok{ties =} \StringTok{"max"}\NormalTok{))) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_y_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{labs}\NormalTok{(}
+      \DataTypeTok{title =} \StringTok{"Rank frequency plot"}\NormalTok{,}
+      \DataTypeTok{subtitle =} \StringTok{"Moby Dick"}\NormalTok{,}
+      \DataTypeTok{x =} \StringTok{"Word frequency"}\NormalTok{,}
+      \DataTypeTok{y =} \StringTok{"Rank"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \includegraphics{zipfs-law_files/figure-latex/unnamed-chunk-5-1.pdf}
+\end{enumerate}
+
+\hypertarget{how-do-we-fit-data-to-zipfs-law}{%
+\subsection{How do we fit data to Zipf's
+Law?}\label{how-do-we-fit-data-to-zipfs-law}}
+
+To fit data to Zipf's law we need to estimate the exponent in the power
+law.
+
+Clauset, Shalizi, and Newman (2009) recommended fitting via maximum
+likelihood and describe doing so if a power law is assumed on the
+probability mass function.
+
+Moreno-Sánchez, Font-Clos, and Corral (2016), referencing Clauset,
+Shalizi, and Newman (2009), also use maximum likelihood but also do so
+for a power law assumed on the survival function.
+
+\hypertarget{moby-dick-example}{%
+\subsubsection{Moby Dick Example}\label{moby-dick-example}}
+
+If we place a power law on the survival function, assuming
+\(x_\text{min} = 1\): \[
+f(x; \beta) = \frac{1}{x}^{\beta - 1} - \frac{1}{x + 1}^{\beta - 1}
+\] Then the log likelihood for \(x_1, \ldots, x_n\) independent and
+identically distributed word frequencies is: \[
+l(\beta) =  \log \left( \prod_{i = 1}^{n} f(x_i; \beta) \right)
+\]
+
+We can numerically maximize this to get a maximum likelihood estimate
+for \(\beta\).
+
+Negative (since R functions like to minimize, not maximize) log
+likelihood for \(x_1, \ldots, x_n\) word frequencies:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# negative log likelihood l(beta) = -sum(log(f(x)))}
+\NormalTok{nlog_likelihood <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(beta, x)\{}
+  \OperatorTok{-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{log}\NormalTok{((}\DecValTok{1}\OperatorTok{/}\NormalTok{x)}\OperatorTok{^}\NormalTok{(beta }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{) }\OperatorTok{-}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{(x }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{))}\OperatorTok{^}\NormalTok{(beta }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{)))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Estimating \(\beta\) for Moby Dick:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Optimizer settings from @moreno2016large}
+\NormalTok{mle <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\FloatTok{1.5}\NormalTok{, nlog_likelihood, }\DataTypeTok{x =}\NormalTok{ moby}\OperatorTok{$}\NormalTok{count, }
+  \DataTypeTok{lower =} \DecValTok{1}\NormalTok{, }\DataTypeTok{upper =} \DecValTok{4}\NormalTok{, }
+  \DataTypeTok{hessian =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{method =} \StringTok{"Brent"}\NormalTok{)}
+
+\NormalTok{beta_hat <-}\StringTok{ }\NormalTok{mle}\OperatorTok{$}\NormalTok{par}
+\CommentTok{# Standard error from ML theory}
+\NormalTok{se <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{mle}\OperatorTok{$}\NormalTok{hessian)[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{]}
+
+\CommentTok{# Asymptotic 95% CI}
+\NormalTok{ci <-}\StringTok{ }\NormalTok{beta_hat }\OperatorTok{+}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se}
+\end{Highlighting}
+\end{Shaded}
+
+For Moby Dick, estimate power law exponent, \(\beta\), is between 1.89
+and 1.92 (95\% asymptotic confidence interval).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(moby)}
+\NormalTok{moby }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(count, }\KeywordTok{rank}\NormalTok{(}\KeywordTok{desc}\NormalTok{(count), }\DataTypeTok{ties =} \StringTok{"max"}\NormalTok{))) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{size =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{color =} \StringTok{"grey50"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_abline}\NormalTok{(}
+    \DataTypeTok{intercept =} \KeywordTok{log10}\NormalTok{(n),}
+    \DataTypeTok{slope =} \OperatorTok{-}\NormalTok{beta_hat }\OperatorTok{+}\StringTok{ }\DecValTok{1}
+\NormalTok{  ) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_y_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{labs}\NormalTok{(}
+      \DataTypeTok{title =} \StringTok{"Rank frequency plot with fitted power law"}\NormalTok{,}
+      \DataTypeTok{subtitle =} \StringTok{"Moby Dick"}\NormalTok{,}
+      \DataTypeTok{x =} \StringTok{"Word frequency"}\NormalTok{,}
+      \DataTypeTok{y =} \StringTok{"Rank"}
+\NormalTok{      )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{zipfs-law_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+Clauset, Shalizi, and Newman (2009) give some closed form approximations
+to the MLEs, but suggest they are only accurate for
+\(x_\text{min} \ge 6\).
+
+\hypertarget{why-should-or-shouldnt-we-fit-a-log-normal}{%
+\subsection{Why should (or shouldn't we) fit a Log
+Normal?}\label{why-should-or-shouldnt-we-fit-a-log-normal}}
+
+Newman (2005) has good summary for data generating mechanisms that would
+result in power law or log normally distributed variables.
+
+Most convincing mechanisms:
+
+\begin{itemize}
+\item
+  \textbf{Power law behavior} Essentially a ``monkey's on typewriters''
+  argument, suggests if letters (including spaces) are typed randomly,
+  then the distribution of word frequencies would have a power law. A
+  contradiction arises when considering what this mechanism would
+  predict for the number of unique words as the length of a text grows,
+  but this is partially resolved by considering the basic components of
+  words as something larger than individual letters. \emph{I think this
+  argument is made for continuous frequencies, does it point
+  specifically to one of the formulations for discrete frequencies?}
+\item
+  \textbf{Log Normal} Often arises when multiplying random things
+  together. Argument comes considering log of a product as sum of the
+  logs, and sums often obey Central Limit Theorem.
+\end{itemize}
+
+\textbf{Empirical Arguments}
+
+As explained by Newman (2005) a Log Normally distributed random
+variable, \(x\) will have log probability density function that is
+quadratic in \(\log x\): \[
+\log{f(x)} = -\frac{(\log x)^2}{2\sigma^2} + \left(\frac{\mu}{\sigma^2} -1 \right) \log x - \frac{\mu^2}{2\sigma^2}
+\] Or, in other words, on log-log scale the PDF will be quadratic. On a
+small regions this quadratic may be well approximated by a linear
+function of \(\log x\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# mles for log-normal fit to moby dick}
+\NormalTok{mu_hat <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{log}\NormalTok{(moby}\OperatorTok{$}\NormalTok{count))}
+\NormalTok{sigma_hat <-}\StringTok{ }\KeywordTok{sd}\NormalTok{(}\KeywordTok{log}\NormalTok{(moby}\OperatorTok{$}\NormalTok{count))}\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((n}\DecValTok{-1}\NormalTok{)}\OperatorTok{/}\NormalTok{n)}
+\end{Highlighting}
+\end{Shaded}
+
+Comparison of resulting curves:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{moby }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(count) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ungroup}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}
+    \DataTypeTok{obs_prop =}\NormalTok{ n}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(n),}
+    \DataTypeTok{expected_zipfs =}\NormalTok{ count}\OperatorTok{^}\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{beta_hat) }\OperatorTok{-}\StringTok{ }
+\StringTok{      }\NormalTok{(count }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)}\OperatorTok{^}\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{beta_hat),}
+    \DataTypeTok{expected_lognormal =} \KeywordTok{dlnorm}\NormalTok{(count, }\DataTypeTok{meanlog =}\NormalTok{ mu_hat,}
+      \DataTypeTok{sdlog =}\NormalTok{ sigma_hat)}
+\NormalTok{  ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(count, obs_prop)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{size =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{color =} \StringTok{"grey50"}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ expected_zipfs)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ expected_lognormal), }\DataTypeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_y_log10}\NormalTok{(}\DataTypeTok{limits =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{n, }\DecValTok{1}\NormalTok{)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{labs}\NormalTok{(}
+      \DataTypeTok{title =} \StringTok{"Histogram of word frequencies"}\NormalTok{,}
+      \DataTypeTok{subtitle =} \StringTok{"Moby Dick"}\NormalTok{,}
+      \DataTypeTok{x =} \StringTok{"Word frequency"}\NormalTok{,}
+      \DataTypeTok{y =} \StringTok{"Words"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 144 rows containing missing values
+## (geom_path).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 213 rows containing missing values
+## (geom_path).
+\end{verbatim}
+
+\includegraphics{zipfs-law_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+The power law on the survival function gives the following form on the
+probability mass function (with \(x_\text{min} = 1\)): \[
+f(x) = x^{1 - \beta} - (x + 1)^{1 - \beta}
+\] This isn't linear on log-log scales, but given the range of the data,
+e.g.~words in Moby Dick, it doesn't have a huge amount of curvature.
+
+\hypertarget{how-can-i-simulate-data-that-follows-a-power-law}{%
+\subsection{How can I simulate data that follows a power
+law?}\label{how-can-i-simulate-data-that-follows-a-power-law}}
+
+From Moreno-Sánchez, Font-Clos, and Corral (2016), use the inverse
+transform method:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  generate \(u\) from uniform distribution on
+  \((0, 1/x_\text{min}^{\beta - 1})\)
+\item
+  calculate \(y = 1/u^{1/(\beta - 1)}\)
+\item
+  take \(x = \lfloor y\rfloor\)
+\end{enumerate}
+
+When \(x_\text{min} = 1\), and with some simplification:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  generate \(u\) from uniform distribution on \((0, 1)\)
+\item
+  calculate \(y = u^{1/(1 - \beta)}\)
+\item
+  take \(x = \lfloor y\rfloor\)
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nsim <-}\StringTok{ }\DecValTok{100000}
+\NormalTok{beta <-}\StringTok{ }\FloatTok{1.9}
+
+\NormalTok{inverse_ccdf <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x, beta)\{}
+\NormalTok{  x}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{beta))}
+\NormalTok{\}}
+
+\NormalTok{sim_counts <-}\StringTok{ }\KeywordTok{floor}\NormalTok{(}\KeywordTok{inverse_ccdf}\NormalTok{(}\KeywordTok{runif}\NormalTok{(nsim), }\DataTypeTok{beta =}\NormalTok{ beta))}
+
+\KeywordTok{tibble}\NormalTok{(}\DataTypeTok{count =}\NormalTok{ sim_counts) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(count) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ count, }\DataTypeTok{y =}\NormalTok{ n)) }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_y_log10}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{zipfs-law_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tibble}\NormalTok{(}\DataTypeTok{count =}\NormalTok{ sim_counts) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(count, }\KeywordTok{rank}\NormalTok{(}\KeywordTok{desc}\NormalTok{(count), }\DataTypeTok{ties =} \StringTok{"max"}\NormalTok{))) }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_y_log10}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{zipfs-law_files/figure-latex/unnamed-chunk-11-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mle_sim <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\FloatTok{1.5}\NormalTok{, nlog_likelihood, }\DataTypeTok{x =}\NormalTok{ sim_counts, }
+  \DataTypeTok{lower =} \DecValTok{1}\NormalTok{, }\DataTypeTok{upper =} \DecValTok{4}\NormalTok{, }
+  \DataTypeTok{hessian =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{method =} \StringTok{"Brent"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{references}{%
+\subsection*{References}\label{references}}
+\addcontentsline{toc}{subsection}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-clauset2009power}{}%
+Clauset, Aaron, Cosma Rohilla Shalizi, and Mark EJ Newman. 2009.
+``Power-Law Distributions in Empirical Data.'' \emph{SIAM Review} 51
+(4). SIAM: 661--703.
+
+\leavevmode\hypertarget{ref-moreno2016large}{}%
+Moreno-Sánchez, Isabel, Francesc Font-Clos, and Álvaro Corral. 2016.
+``Large-Scale Analysis of Zipf's Law in English Texts.'' \emph{PloS One}
+11 (1). Public Library of Science: e0147073.
+
+\leavevmode\hypertarget{ref-newman2005power}{}%
+Newman, Mark EJ. 2005. ``Power Laws, Pareto Distributions and Zipf's
+Law.'' \emph{Contemporary Physics} 46 (5). Taylor \& Francis: 323--51.
+
+\end{document}
